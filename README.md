@@ -1,6 +1,6 @@
 # KGP Vibes Cafe
 
-Course resources for **Vibe Coding with Google Antigravity 2.0**. Throughout the course we build a demo website and
+Course resources for **Vibe Coding with Google Antigravity**. Throughout the course we build a demo website and
 launch kit for KGP Vibes Cafe, a small tech-themed cafe in Bengaluru opening its second outlet.
 
 Everything you need to follow along is here, so you can give the agent the same starting information about the
