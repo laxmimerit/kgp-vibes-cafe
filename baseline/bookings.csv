@@ -1,0 +1,11 @@
+booking_id,date,time,name,email,party_size,type,outlet,notes,status
+B001,2026-11-01,10:30,Kavya Iyer,kavya.iyer@example.com,6,table,Koramangala,"Weekend brunch, window side if possible",confirmed
+B002,2026-11-04,13:00,Rohan Das (Northwind Labs),rohan.das@example.com,12,catering,Koramangala,Veg lunch boxes delivered to office,confirmed
+B003,2026-11-07,19:00,Ananya Gupta,ananya.gupta@example.com,8,birthday,Koramangala,"Cake allowed, needs one long table",confirmed
+B004,2026-11-09,11:00,Campus Coding Club,campus.coding.club@example.com,15,table,Koramangala,"Monthly meetup, needs a projector socket",confirmed
+B005,2026-11-12,16:00,Meera Pillai,meera.pillai@example.com,6,table,Koramangala,Book club,pending
+B006,2026-11-15,10:00,Siddharth Nair,siddharth.nair@example.com,7,table,Koramangala,"Family brunch, one high chair",confirmed
+B007,2026-11-19,13:30,Tara Bose (Blue Peak Studio),tara.bose@example.com,20,catering,Koramangala,Snack boxes and 20 Talkie Chais,pending
+B008,2026-11-21,18:30,Vikram Joshi,vikram.joshi@example.com,10,birthday,Koramangala,"Surprise party, decorations from 6 PM",confirmed
+B009,2026-11-23,09:30,Startup Founders Meetup,startup.founders.meetup@example.com,18,table,Koramangala,Breakfast meetup,pending
+B010,2026-11-28,12:00,Ishaan Mehta,ishaan.mehta@example.com,6,table,Koramangala,Farewell lunch,confirmed

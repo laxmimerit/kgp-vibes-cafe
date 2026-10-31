@@ -1,0 +1,4 @@
+month,sales_usd,orders,average_order_usd,food_drink_ingredients_usd,staff_wages_usd,rent_usd,electricity_water_usd,repairs_maintenance_usd,marketing_usd,internet_software_usd,packaging_usd,card_payment_fees_usd,total_costs_usd,profit_usd
+2026-08,9934.30,1255,7.92,2916.61,2950.00,1500.00,380.00,90.00,120.00,45.00,88.20,70.27,8160.08,1774.22
+2026-09,9674.10,1235,7.83,2828.59,2950.00,1500.00,395.00,160.00,120.00,45.00,87.12,64.69,8150.40,1523.70
+2026-10,10808.00,1405,7.69,3154.05,3150.00,1500.00,410.00,80.00,180.00,45.00,95.40,75.38,8689.83,2118.17

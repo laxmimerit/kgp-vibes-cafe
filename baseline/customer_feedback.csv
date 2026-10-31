@@ -1,0 +1,31 @@
+review_id,date,source,rating,theme,text
+R001,2026-08-03,Google,5,chai,Best Talkie Chai in Koramangala. I come here every morning before class.
+R002,2026-08-06,In-store card,4,vibe,"Calm place to work, good Wi-Fi. Wish there were more power sockets."
+R003,2026-08-09,Google,3,queue,Waited almost 15 minutes for a latte at 9 AM. Coffee was great though.
+R004,2026-08-12,Google,5,food,The KGP Maggi Bowl is pure nostalgia. Spicy version is the one.
+R005,2026-08-15,In-store card,5,vibe,Love the tech names on the menu. Stack Overflow Nachos made my day.
+R006,2026-08-18,Google,2,queue,Long line in the morning and only one person at the counter.
+R007,2026-08-21,Google,4,prices,Fair prices for the area. Cold brew is a little pricey but worth it.
+R008,2026-08-24,In-store card,5,chai,Chai plus croissant is my favourite breakfast now.
+R009,2026-08-28,Google,4,menu,Would love to see photos of the food before ordering. The menu is just text.
+R010,2026-09-02,Google,5,food,"Startup Burger and Cloud Fries, perfect lunch."
+R011,2026-09-05,In-store card,3,menu,Asked for an egg-free dessert and the staff were not sure which ones.
+R012,2026-09-09,Google,5,vibe,"Friendly team, they remember my order."
+R013,2026-09-12,Google,3,queue,"Great coffee, but I gave up and left at 8:45 AM. The line was out the door."
+R014,2026-09-16,Google,4,wifi,"Fast Wi-Fi, good for calls. Gets crowded at lunch."
+R015,2026-09-19,In-store card,5,food,Runtime Tiramisu is the best dessert here.
+R016,2026-09-23,Google,4,prices,"Good value combos would be nice, like chai plus Maggi."
+R017,2026-09-26,Google,5,chai,Talkie Chai reminds me of my hostel days.
+R018,2026-09-30,In-store card,2,menu,Ordered a dish that was on the printed menu but no longer served.
+R019,2026-10-03,Google,5,vibe,My go-to place for weekend brunch with friends.
+R020,2026-10-07,Google,3,queue,Need a way to order ahead. Mornings are too slow.
+R021,2026-10-10,In-store card,4,food,Backend Bowl is a good healthy option. More vegan choices please.
+R022,2026-10-13,Google,5,chai,"Chai, cookies and a quiet corner. Perfect."
+R023,2026-10-16,Google,4,menu,Could not find the cafe's menu online before visiting. Had to call.
+R024,2026-10-19,Google,5,vibe,"Feels like a campus canteen, but nicer."
+R025,2026-10-22,In-store card,3,queue,Takeaway order took 18 minutes on a weekday morning.
+R026,2026-10-24,Google,5,food,API Affogato is a must try.
+R027,2026-10-26,Google,4,prices,"Prices are fine, portions of pasta could be bigger."
+R028,2026-10-28,In-store card,5,chai,Please open closer to Indiranagar! Heard it is coming.
+R029,2026-10-30,Google,4,wifi,Good place to code. Music is a bit loud in the evening.
+R030,2026-10-31,Google,5,vibe,Halloween cookies were a nice touch. Lovely team.
