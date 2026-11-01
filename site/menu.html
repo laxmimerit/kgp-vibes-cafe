@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - KGP Vibes Cafe</title>
+  <meta name="description" content="Explore all 39 handcrafted coffee drinks, authentic chais, snacks, hearty meals, and desserts at KGP Vibes Cafe.">
+  
+  <!-- Brand Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="KGP Vibes Cafe Home">
+        <div class="brand-icon">☕</div>
+        <div class="brand-text">
+          <span class="brand-title">KGP Vibes Cafe</span>
+          <span class="brand-subtitle">Where code meets chai</span>
+        </div>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="menu.html" class="nav-link active">Menu</a></li>
+        <li>
+          <a href="cart.html" class="cart-nav-btn" aria-label="View Cart and Order Ahead">
+            <span>🛒 Order Ahead</span>
+            <span class="cart-badge" style="display: none;">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Menu Header & Controls -->
+  <main class="section" style="padding-top: 2.5rem;">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 2rem;">
+        <h1 class="section-title">Our Menu</h1>
+        <p class="section-description">
+          All 39 items handcrafted with care. All prices in USD include taxes.
+        </p>
+      </div>
+
+      <!-- Search & Filters Container -->
+      <div class="menu-controls">
+        <!-- Live Search -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="menu-search" class="search-input" placeholder="Search coffee, chai, brownies, maggi, burgers..." aria-label="Search menu items">
+        </div>
+
+        <!-- Category Filters -->
+        <div class="filter-group">
+          <span class="filter-label">Category:</span>
+          <button type="button" class="filter-btn category-btn active" data-category="all">All Items</button>
+          <button type="button" class="filter-btn category-btn" data-category="Coffee">Coffee & Chai</button>
+          <button type="button" class="filter-btn category-btn" data-category="Snacks & Meals">Snacks</button>
+          <button type="button" class="filter-btn category-btn" data-category="Meals">Meals</button>
+          <button type="button" class="filter-btn category-btn" data-category="Desserts & Drinks">Desserts & Cold Drinks</button>
+        </div>
+
+        <!-- Dietary Filters -->
+        <div class="filter-group">
+          <span class="filter-label">Dietary:</span>
+          <button type="button" class="diet-pill active" data-diet="all">All Diets</button>
+          <button type="button" class="diet-pill" data-diet="vegetarian">Vegetarian Only</button>
+          <button type="button" class="diet-pill" data-diet="vegan">Vegan Only</button>
+          <button type="button" class="diet-pill" data-diet="egg-free">Egg-Free Only</button>
+        </div>
+      </div>
+
+      <!-- Items Count Bar -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+        <span id="menu-items-count">Loading menu items...</span>
+        <span>Tap any item to add it to your pickup order</span>
+      </div>
+
+      <!-- Dynamic Menu Grid -->
+      <div class="menu-grid" id="menu-items-grid">
+        <!-- Dynamically populated by js/menu-page.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3 class="footer-brand-title">☕ KGP Vibes Cafe</h3>
+          <p class="footer-desc">
+            A small tech-themed cafe founded by an IIT Kharagpur alumnus. Great coffee, authentic chai, and quiet space to build ideas.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About & FAQs</a></li>
+            <li><a href="menu.html">Full Menu</a></li>
+            <li><a href="cart.html">Order Ahead (Demo)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Locations</h4>
+          <ul class="footer-list">
+            <li><strong>Koramangala:</strong> No. 27, 6th Cross, 5th Block</li>
+            <li><strong>Indiranagar:</strong> 100 Feet Road (Opening Soon)</li>
+            <li><strong>Hours:</strong> Daily, 8:00 AM – 10:00 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© KGP Vibes Cafe. All rights reserved. Where code meets chai.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/menu-data.js"></script>
+  <script src="js/menu-loader.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/menu-page.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

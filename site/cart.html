@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Order - KGP Vibes Cafe</title>
+  <meta name="description" content="Review your items, schedule a pickup time, and place your order ahead at KGP Vibes Cafe.">
+  
+  <!-- Brand Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="KGP Vibes Cafe Home">
+        <div class="brand-icon">☕</div>
+        <div class="brand-text">
+          <span class="brand-title">KGP Vibes Cafe</span>
+          <span class="brand-subtitle">Where code meets chai</span>
+        </div>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="menu.html" class="nav-link">Menu</a></li>
+        <li>
+          <a href="cart.html" class="cart-nav-btn active" aria-label="View Cart and Order Ahead">
+            <span>🛒 Order Ahead</span>
+            <span class="cart-badge" style="display: none;">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top: 2.5rem;">
+    <div class="container">
+      
+      <!-- Empty Cart State (Hidden when cart has items) -->
+      <div id="empty-cart-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">☕</div>
+        <h2 class="empty-title">Your cart is empty — code runs on chai!</h2>
+        <p class="empty-desc">
+          Add your favorite brews, bites, or sweet fixes from our menu to schedule a pickup.
+        </p>
+        <a href="menu.html" class="btn btn-primary">📖 Explore the Menu</a>
+      </div>
+
+      <!-- Active Cart Layout (Hidden when cart is empty) -->
+      <div id="active-cart-layout" class="cart-layout" style="display: none;">
+        
+        <!-- Left: Items List, Outlet, & Time Selection -->
+        <div class="cart-items-card">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Review Your Order</h2>
+          
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th style="text-align: right;">Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cart-items-body">
+              <!-- Dynamically populated by js/checkout.js -->
+            </tbody>
+          </table>
+
+          <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+            <a href="menu.html" style="font-size: 0.9rem; font-weight: 600;">+ Add more items from menu</a>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+          <!-- Outlet Selection -->
+          <div class="form-section">
+            <label class="form-label">1. Choose Pickup Outlet</label>
+            <div class="radio-cards">
+              <label class="radio-card selected">
+                <input type="radio" name="outlet" value="koramangala" checked>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">
+                    <span>Koramangala (Open Daily)</span>
+                  </div>
+                  <div class="radio-card-subtitle">
+                    No. 27, 6th Cross, 5th Block • Daily 8:00 AM – 10:00 PM
+                  </div>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="outlet" value="indiranagar">
+                <div class="radio-card-content">
+                  <div class="radio-card-title">
+                    <span>Indiranagar</span>
+                    <span class="badge badge-vegan">Opening Soon</span>
+                  </div>
+                  <div class="radio-card-subtitle">
+                    100 Feet Road • Daily 8:00 AM – 10:00 PM
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pickup Time Selector -->
+          <div class="form-section" style="margin-bottom: 0;">
+            <label class="form-label" for="pickup-time-input">2. Choose Pickup Time</label>
+            <p class="form-help" style="margin-bottom: 0.75rem;">
+              Pickup times are in 15-minute slots from 8:00 AM to 9:45 PM.
+            </p>
+
+            <!-- Cafe Closed Notice (Shown when cafe is closed) -->
+            <div id="cafe-closed-notice" class="closed-notice" style="display: none;" role="status" aria-live="polite">
+              We're closed right now. Pickup starts at 8:00 AM.
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="preset-chips" id="preset-chips-container">
+              <button type="button" class="time-chip active" data-minutes="15">+15 Mins</button>
+              <button type="button" class="time-chip" data-minutes="30">+30 Mins</button>
+              <button type="button" class="time-chip" data-minutes="45">+45 Mins</button>
+            </div>
+
+            <div style="max-width: 220px;">
+              <select id="pickup-time-input" class="form-select" aria-label="Selected pickup time">
+                <!-- Dynamically populated with 15-minute slots by js/checkout.js -->
+              </select>
+            </div>
+
+            <!-- Inline Time Validation Warning -->
+            <div id="time-alert" class="alert-box" style="margin-top: 1rem;">
+              Please select a valid future pickup time.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Customer Contact & Checkout Form -->
+        <div class="checkout-card">
+          <h2 style="margin-bottom: 1.25rem; font-size: 1.35rem;">Customer Details</h2>
+
+          <form id="checkout-form">
+            <div class="form-section">
+              <label class="form-label" for="customer-name">
+                Your Name <span style="color: var(--error);">*</span>
+              </label>
+              <input type="text" id="customer-name" class="form-input" placeholder="e.g. Alex" required minlength="2">
+              <span class="form-help">Printed on your cup and pickup ticket.</span>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="customer-phone">
+                Phone Number <span style="font-weight: 400; color: var(--text-muted);">(Optional)</span>
+              </label>
+              <input type="tel" id="customer-phone" class="form-input" placeholder="e.g. 9876543210">
+              <span class="form-help">Only used if baristas need to clarify your order.</span>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="special-notes">
+                Special Instructions <span style="font-weight: 400; color: var(--text-muted);">(Optional)</span>
+              </label>
+              <textarea id="special-notes" class="form-textarea" rows="2" placeholder="e.g. Oat milk for latte, extra hot, less sugar"></textarea>
+            </div>
+
+            <!-- Order Cost Summary -->
+            <div class="order-summary-box">
+              <div class="summary-row">
+                <span>Items</span>
+                <span id="cart-count-summary">0 items</span>
+              </div>
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">$0.00</span>
+              </div>
+              <div class="summary-row" style="font-size: 0.8rem; color: var(--text-light);">
+                <span>Taxes</span>
+                <span>Included in price</span>
+              </div>
+              <div class="summary-row total-row">
+                <span>Total Amount</span>
+                <span id="cart-total">$0.00</span>
+              </div>
+            </div>
+
+            <!-- Demo Notice -->
+            <div class="demo-notice">
+              💡 <strong>Demo Checkout:</strong> Pay at the counter with UPI, card, or cash when you pick up.
+            </div>
+
+            <button type="submit" id="btn-place-order" class="btn btn-primary btn-block" style="font-size: 1.05rem; padding: 0.85rem;">
+              Confirm Pickup Order
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3 class="footer-brand-title">☕ KGP Vibes Cafe</h3>
+          <p class="footer-desc">
+            A small tech-themed cafe founded by an IIT Kharagpur alumnus. Great coffee, authentic chai, and quiet space to build ideas.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About & FAQs</a></li>
+            <li><a href="menu.html">Full Menu</a></li>
+            <li><a href="cart.html">Order Ahead (Demo)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Locations</h4>
+          <ul class="footer-list">
+            <li><strong>Koramangala:</strong> No. 27, 6th Cross, 5th Block</li>
+            <li><strong>Indiranagar:</strong> 100 Feet Road (Opening Soon)</li>
+            <li><strong>Hours:</strong> Daily, 8:00 AM – 10:00 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© KGP Vibes Cafe. All rights reserved. Where code meets chai.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
