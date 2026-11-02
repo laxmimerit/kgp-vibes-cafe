@@ -7,20 +7,21 @@ globs: site/**
 
 These rules apply to all files and components within the `site/` folder.
 
-## 1. Typography
+## 1. Visual Design, Colors, Fonts & Spacing
 
-Follow the brand font pairings defined in `brand/fonts.md`:
+All visual design specifications—including color palette, typography, spacing, corner radius, elevation, and component styling—are defined in `DESIGN.md`.
 
-- **Heading Font:** `Space Grotesk`, sans-serif
-  - Use for all page titles, section headers, item names, and prominent callouts.
-- **Body Font:** `Inter`, sans-serif
-  - Use for all body copy, menu item descriptions, dietary tags, prices, and navigation links to ensure optimal readability.
+- Refer directly to `DESIGN.md` for all color tokens, typography scales, spacing tokens, and component aesthetics.
+- Do not redefine or override colors, fonts, or spacing tokens locally.
 
-## 2. Color Palette
+## 2. Customer Tone & Copy
 
-Match the colors from the printed menu in `source/KGP_Vibes_Cafe_Menu.pdf`:
+While the visual style follows `DESIGN.md`, all customer-facing text, copy, and messaging must strictly adhere to `AGENTS.md`:
+- Use plain, friendly, and welcoming language for customers.
+- Do not use terminal-style syntax, CLI commands (e.g., `$ order --now`), or unnecessary technical jargon in customer-facing copy.
 
-- **Background:** White (`#ffffff`)
-- **Primary Text & Headings:** Black (`#000000`) for headers, item titles, prices, and high-emphasis elements.
-- **Secondary / Supporting Text:** Gray (`#808080`) for item descriptions, subtitle details, and secondary copy.
-- **Aesthetic:** Clean, minimalist monochrome print style with sharp black-and-white contrast.
+## 3. Scope Boundaries
+
+Keep the site's scope as it is today:
+- Do not implement dynamic telemetry or developer tools described in `DESIGN.md` (e.g., Command Palette modal, live Wi-Fi telemetry pinging, desk pool seating counters, or table reservations).
+- Keep the site focused on menu browsing, item details, cart management, and the demo checkout flow.

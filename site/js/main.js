@@ -1,7 +1,7 @@
 /**
  * main.js
  * Global behaviors: mobile navigation toggle, active link highlights,
- * and FAQ accordion interaction.
+ * and dynamic cart badge updates across all pages.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.setAttribute('aria-expanded', isOpen);
     });
 
-    // Close when clicking outside
     document.addEventListener('click', (e) => {
       if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
         navLinks.classList.remove('open');
@@ -34,20 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // FAQ Accordion
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const questionBtn = item.querySelector('.faq-question');
-    if (questionBtn) {
-      questionBtn.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        // Close all
-        faqItems.forEach(i => i.classList.remove('active'));
-        // Toggle current
-        if (!isActive) {
-          item.classList.add('active');
-        }
+  // Dynamic Cart Badge Updates
+  function updateCartBadges() {
+    if (typeof Cart !== 'undefined' && Cart.getCartCount) {
+      const count = Cart.getCartCount();
+      document.querySelectorAll('.cart-badge').forEach(badge => {
+        badge.textContent = count;
       });
     }
-  });
+  }
+
+  updateCartBadges();
+  window.addEventListener('cartUpdated', updateCartBadges);
 });

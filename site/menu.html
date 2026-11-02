@@ -1,138 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Menu - KGP Vibes Cafe</title>
-  <meta name="description" content="Explore all 39 handcrafted coffee drinks, authentic chais, snacks, hearty meals, and desserts at KGP Vibes Cafe.">
+  <meta name="description" content="Explore our full menu of artisanal chai, specialty coffee, and cafe snacks.">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   
-  <!-- Brand Typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+tailwind.config={
+  darkMode:"class",
+  theme:{
+    extend:{
+      colors:{
+        "surface-bright":"#fcf9f4",
+        "on-secondary-fixed":"#2a170f",
+        "surface-container-low":"#f6f3ee",
+        "inverse-on-surface":"#f3f0eb",
+        "surface-tint":"#9c4400",
+        "on-secondary-fixed-variant":"#5a4137",
+        "tertiary-fixed":"#a4f3ca",
+        "on-primary-fixed-variant":"#773300",
+        "primary":"#984300",
+        "primary-container":"#ba5814",
+        "background":"#fcf9f4",
+        "on-background":"#1c1c19",
+        "inverse-primary":"#ffb68e",
+        "on-surface-variant":"#564339",
+        "on-error-container":"#93000a",
+        "tertiary-container":"#348260",
+        "surface-container-high":"#ebe8e3",
+        "on-secondary":"#ffffff",
+        "surface-container-highest":"#e5e2dd",
+        "secondary-fixed-dim":"#e2bfb2",
+        "secondary-container":"#fcd8ca",
+        "surface-variant":"#e5e2dd",
+        "on-primary-fixed":"#331200",
+        "secondary":"#73584e",
+        "secondary-fixed":"#ffdbcd",
+        "error":"#ba1a1a",
+        "error-container":"#ffdad6",
+        "surface-container-lowest":"#ffffff",
+        "tertiary-fixed-dim":"#88d6af",
+        "on-tertiary-container":"#f5fff6",
+        "on-error":"#ffffff",
+        "on-secondary-container":"#785d52",
+        "on-primary":"#ffffff",
+        "on-tertiary-fixed-variant":"#005236",
+        "primary-fixed-dim":"#ffb68e",
+        "outline-variant":"#ddc1b3",
+        "inverse-surface":"#31302d",
+        "on-primary-container":"#fffbff",
+        "on-tertiary-fixed":"#002113",
+        "primary-fixed":"#ffdbca",
+        "surface-dim":"#dcdad5",
+        "surface-container":"#f0ede9",
+        "on-surface":"#1c1c19",
+        "outline":"#897267",
+        "on-tertiary":"#ffffff",
+        "surface":"#fcf9f4",
+        "tertiary":"#136948"
+      },
+      borderRadius:{
+        "DEFAULT":"0.25rem",
+        "lg":"0.5rem",
+        "xl":"0.75rem",
+        "full":"9999px"
+      },
+      spacing:{
+        "gutter-desktop":"2rem",
+        "margin-tablet":"2rem",
+        "gutter":"1.25rem",
+        "margin-desktop":"3.5rem",
+        "space-md":"1rem",
+        "margin":"1rem",
+        "space-lg":"1.5rem",
+        "space-sm":"0.5rem",
+        "space-xs":"0.25rem",
+        "space-xl":"2.5rem"
+      },
+      fontFamily:{
+        "headline-md":["Literata"],
+        "display-hero":["Literata"],
+        "body-md":["Plus Jakarta Sans"],
+        "display-hero-mobile":["Literata"],
+        "body-sm":["Plus Jakarta Sans"],
+        "headline-sm":["Literata"],
+        "body-lg":["Plus Jakarta Sans"],
+        "headline-lg":["Literata"],
+        "code-pill":["JetBrains Mono"],
+        "headline-lg-mobile":["Literata"],
+        "label-md":["Plus Jakarta Sans"],
+        "label-sm":["JetBrains Mono"]
+      },
+      fontSize:{
+        "headline-md":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"500"}],
+        "display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.02em","fontWeight":"600"}],
+        "body-md":["15px",{"lineHeight":"24px","fontWeight":"400"}],
+        "display-hero-mobile":["36px",{"lineHeight":"42px","letterSpacing":"-0.01em","fontWeight":"600"}],
+        "body-sm":["13px",{"lineHeight":"20px","fontWeight":"400"}],
+        "headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}],
+        "body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],
+        "headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"600"}],
+        "code-pill":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],
+        "headline-lg-mobile":["28px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],
+        "label-md":["14px",{"lineHeight":"20px","fontWeight":"600"}],
+        "label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"400"}]
+      }
+    }
+  }
+};
+</script>
+
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand-logo" aria-label="KGP Vibes Cafe Home">
-        <div class="brand-icon">☕</div>
-        <div class="brand-text">
-          <span class="brand-title">KGP Vibes Cafe</span>
-          <span class="brand-subtitle">Where code meets chai</span>
+<body class="bg-background font-body-md text-on-surface antialiased">
+  
+  <!-- Site Header (Clean, plain customer navigation) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_4px_20px_-4px_rgba(43,24,16,0.06)] border-b border-outline-variant/30">
+    <div class="h-20 max-w-[1280px] mx-auto px-gutter-desktop flex items-center justify-between gap-space-md">
+      <a href="index.html" class="flex items-center gap-space-md shrink-0 cursor-pointer" aria-label="KGP Vibes Cafe Home">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm text-xl font-bold">
+          ☕
+        </div>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-on-surface leading-tight brand-title">KGP Vibes Cafe</span>
+          <span class="font-label-sm text-label-sm text-secondary tracking-normal">Where code meets chai</span>
         </div>
       </a>
-
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        ☰
-      </button>
-
-      <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="about.html" class="nav-link">About</a></li>
-        <li><a href="menu.html" class="nav-link active">Menu</a></li>
-        <li>
-          <a href="cart.html" class="cart-nav-btn" aria-label="View Cart and Order Ahead">
-            <span>🛒 Order Ahead</span>
-            <span class="cart-badge" style="display: none;">0</span>
-          </a>
-        </li>
-      </ul>
+      
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-low px-space-xs py-space-xs rounded-full shadow-[0_1px_4px_rgba(43,24,16,0.04)]">
+        <a href="index.html" class="px-space-md py-space-xs transition-colors flex items-center gap-space-xs font-label-md text-on-surface-variant hover:text-on-surface">Home</a>
+        <a href="about.html" class="px-space-md py-space-xs transition-colors flex items-center gap-space-xs font-label-md rounded-full text-on-surface-variant hover:text-on-surface">About</a>
+        <a href="menu.html" class="px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs bg-secondary-container text-on-secondary-container font-label-md rounded-full shadow-sm">
+          Menu
+          <span class="font-code-pill text-code-pill bg-secondary-fixed text-on-secondary-fixed px-space-xs py-0.5 rounded-full leading-none">39 Items</span>
+        </a>
+        <a href="cart.html" class="px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface">
+          <span>🛒 Order Ahead</span>
+          <span class="cart-badge font-code-pill text-code-pill bg-primary text-on-primary px-space-xs py-0.5 rounded-full leading-none">0</span>
+        </a>
+      </nav>
+      
+      <div class="flex items-center gap-space-md shrink-0">
+        <a href="cart.html" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-space-lg py-space-sm rounded-full shadow-sm transition-all duration-200 flex items-center gap-space-xs">
+          <span>Order Ahead</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Menu Header & Controls -->
-  <main class="section" style="padding-top: 2.5rem;">
-    <div class="container">
-      <div class="section-header" style="margin-bottom: 2rem;">
-        <h1 class="section-title">Our Menu</h1>
-        <p class="section-description">
-          All 39 items handcrafted with care. All prices in USD include taxes.
+
+  <main class="w-full pt-20 bg-background min-h-[calc(100vh-20rem)] py-space-xl">
+    <div class="max-w-[1280px] mx-auto px-gutter-desktop">
+      
+      <!-- Menu Header -->
+      <div class="flex flex-col max-w-2xl mb-space-lg">
+        <span class="font-label-sm text-primary uppercase tracking-wider font-semibold">Freshly Prepared</span>
+        <h1 class="font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight mt-1">Our Menu</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mt-2 leading-relaxed">
+          Explore our handcrafted chai, single-origin coffee, wholesome food, and bakery treats.
         </p>
       </div>
 
-      <!-- Search & Filters Container -->
-      <div class="menu-controls">
-        <!-- Live Search -->
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="menu-search" class="search-input" placeholder="Search coffee, chai, brownies, maggi, burgers..." aria-label="Search menu items">
+      <!-- Search and Filter Bar -->
+      <div class="flex flex-col gap-space-sm mb-space-xl">
+        <div class="relative w-full max-w-md">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-outline">
+            <span class="material-symbols-outlined text-lg">search</span>
+          </span>
+          <input id="menu-search" class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded-full pl-11 pr-4 py-2.5 font-body-md text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Search menu by name, ingredient, or tag...">
         </div>
 
-        <!-- Category Filters -->
-        <div class="filter-group">
-          <span class="filter-label">Category:</span>
-          <button type="button" class="filter-btn category-btn active" data-category="all">All Items</button>
-          <button type="button" class="filter-btn category-btn" data-category="Coffee">Coffee & Chai</button>
-          <button type="button" class="filter-btn category-btn" data-category="Snacks & Meals">Snacks</button>
-          <button type="button" class="filter-btn category-btn" data-category="Meals">Meals</button>
-          <button type="button" class="filter-btn category-btn" data-category="Desserts & Drinks">Desserts & Cold Drinks</button>
+        <div class="flex items-center gap-space-xs overflow-x-auto pb-space-xs no-scrollbar" id="category-pills">
+          <button data-category="all" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-secondary-container text-on-secondary-container font-semibold shadow-sm transition-all duration-150 active" type="button">All Items (39)</button>
+          <button data-category="Coffee" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all duration-150" type="button">Coffee (12)</button>
+          <button data-category="Chai" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all duration-150" type="button">Chai</button>
+          <button data-category="Snacks" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all duration-150" type="button">Bites &amp; Snacks</button>
+          <button data-category="Bakery" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all duration-150" type="button">Bakery &amp; Desserts</button>
+          <button data-category="Cold Brew" class="category-btn filter-pill-btn whitespace-nowrap px-space-lg py-space-xs rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all duration-150" type="button">Cold Brews &amp; Coolers</button>
         </div>
 
-        <!-- Dietary Filters -->
-        <div class="filter-group">
-          <span class="filter-label">Dietary:</span>
-          <button type="button" class="diet-pill active" data-diet="all">All Diets</button>
-          <button type="button" class="diet-pill" data-diet="vegetarian">Vegetarian Only</button>
-          <button type="button" class="diet-pill" data-diet="vegan">Vegan Only</button>
-          <button type="button" class="diet-pill" data-diet="egg-free">Egg-Free Only</button>
+        <div class="flex flex-wrap items-center gap-space-xs font-label-sm text-xs text-on-surface-variant">
+          <span class="opacity-70">Dietary Filter:</span>
+          <button data-diet="all" class="diet-pill px-space-sm py-0.5 rounded-full bg-primary/10 text-primary font-semibold">All Diets</button>
+          <button data-diet="vegetarian" class="diet-pill px-space-sm py-0.5 rounded-full bg-surface-container-low hover:bg-surface-container">Veg</button>
+          <button data-diet="vegan" class="diet-pill px-space-sm py-0.5 rounded-full bg-surface-container-low hover:bg-surface-container">Vegan</button>
+          <button data-diet="egg-free" class="diet-pill px-space-sm py-0.5 rounded-full bg-surface-container-low hover:bg-surface-container">Egg-Free</button>
+          <span id="menu-items-count" class="ml-auto text-xs text-secondary opacity-75">Loading items...</span>
         </div>
       </div>
 
-      <!-- Items Count Bar -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
-        <span id="menu-items-count">Loading menu items...</span>
-        <span>Tap any item to add it to your pickup order</span>
+      <!-- Dynamic Menu Items Grid -->
+      <div id="menu-items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+        <!-- Rendered by js/menu-page.js with food photos & plain labels -->
       </div>
 
-      <!-- Dynamic Menu Grid -->
-      <div class="menu-grid" id="menu-items-grid">
-        <!-- Dynamically populated by js/menu-page.js -->
-      </div>
     </div>
   </main>
 
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <h3 class="footer-brand-title">☕ KGP Vibes Cafe</h3>
-          <p class="footer-desc">
-            A small tech-themed cafe founded by an IIT Kharagpur alumnus. Great coffee, authentic chai, and quiet space to build ideas.
+  
+  <!-- Plain Customer Footer (No dates, no years, no Wi-Fi credentials) -->
+  <footer class="w-full bg-surface-container-low text-on-surface-variant mt-space-xl pb-20 lg:pb-0 border-t border-outline-variant/30">
+    <div class="max-w-[1280px] mx-auto px-gutter-desktop py-space-xl">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-space-xl">
+        <div class="md:col-span-2 flex flex-col gap-space-sm">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-base">
+              ☕
+            </div>
+            <span class="font-headline-sm text-headline-sm text-on-surface">KGP Vibes Cafe</span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
+            Where code meets chai. Handcrafted brews, collegiate hospitality, and wholesome food open daily from 8:00 AM to 10:00 PM.
           </p>
         </div>
-
         <div>
-          <h4 class="footer-heading">Quick Links</h4>
-          <ul class="footer-list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About & FAQs</a></li>
-            <li><a href="menu.html">Full Menu</a></li>
-            <li><a href="cart.html">Order Ahead (Demo)</a></li>
+          <h4 class="font-label-md text-label-md text-on-surface font-semibold mb-space-sm">Explore</h4>
+          <ul class="flex flex-col gap-space-xs font-body-sm text-body-sm">
+            <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
+            <li><a href="about.html" class="hover:text-primary transition-colors">About Us</a></li>
+            <li><a href="menu.html" class="hover:text-primary transition-colors">Our Menu</a></li>
+            <li><a href="cart.html" class="hover:text-primary transition-colors">Order Ahead</a></li>
           </ul>
         </div>
-
         <div>
-          <h4 class="footer-heading">Locations</h4>
-          <ul class="footer-list">
-            <li><strong>Koramangala:</strong> No. 27, 6th Cross, 5th Block</li>
-            <li><strong>Indiranagar:</strong> 100 Feet Road (Opening Soon)</li>
-            <li><strong>Hours:</strong> Daily, 8:00 AM – 10:00 PM</li>
+          <h4 class="font-label-md text-label-md text-on-surface font-semibold mb-space-sm">Outlets</h4>
+          <ul class="flex flex-col gap-space-xs font-body-sm text-body-sm">
+            <li><strong class="text-on-surface">Koramangala</strong> (Open Daily)</li>
+            <li class="text-xs text-outline">No. 27, 6th Cross, 5th Block</li>
+            <li class="mt-2"><strong class="text-on-surface">Indiranagar</strong> (Opening Soon)</li>
+            <li class="text-xs text-outline">100 Feet Road</li>
           </ul>
         </div>
       </div>
-
-      <div class="footer-bottom">
-        <p>© KGP Vibes Cafe. All rights reserved. Where code meets chai.</p>
+      <div class="mt-space-xl pt-space-md border-t border-outline-variant/30 flex flex-wrap items-center justify-between gap-space-sm font-label-sm text-label-sm text-secondary">
+        <span>KGP Vibes Cafe. All rights reserved.</span>
+        <span>Daily 8:00 AM – 10:00 PM</span>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  
+  <!-- Mobile Bottom Navigation Bar (Phone layout: 390px) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(43,24,16,0.06)] border-t border-outline-variant/30">
+    <div class="flex items-center justify-around h-16 px-space-xs max-w-md mx-auto">
+      <a href="index.html" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[24px]">home</span>
+        <span class="font-label-sm text-[11px]">Home</span>
+      </a>
+      <a href="about.html" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[24px]">info</span>
+        <span class="font-label-sm text-[11px]">About</span>
+      </a>
+      <a href="menu.html" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-primary font-bold">
+        <span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+        <span class="font-label-sm text-[11px]">Menu</span>
+      </a>
+      <a href="cart.html" class="relative flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+        <span class="font-label-sm text-[11px]">Order Ahead</span>
+        <span class="cart-badge absolute top-1 right-2 w-4 h-4 rounded-full bg-primary text-on-primary text-[10px] font-bold flex items-center justify-center">0</span>
+      </a>
+    </div>
+  </nav>
+
+
   <script src="js/menu-data.js"></script>
   <script src="js/menu-loader.js"></script>
   <script src="js/cart.js"></script>

@@ -198,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartSubtotalEl) cartSubtotalEl.textContent = Cart.formatPrice(total);
     if (cartTotalEl) cartTotalEl.textContent = Cart.formatPrice(total);
     if (cartCountSummaryEl) cartCountSummaryEl.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
+    const totalCountBadge = document.getElementById('total-count-badge');
+    if (totalCountBadge) totalCountBadge.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
 
     if (count === 0) {
       if (cartItemsTable) cartItemsTable.innerHTML = '';
@@ -214,26 +216,29 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsTable.innerHTML = '';
       cart.forEach(item => {
         const tr = document.createElement('tr');
+        tr.className = 'border-b border-outline-variant/15 hover:bg-surface-container-low/50 transition-colors';
         const unitPrice = Number(item.price) || 0;
         const qty = Number(item.quantity) || 0;
         const itemTotal = Math.round(unitPrice * qty * 100) / 100;
         tr.innerHTML = `
-          <td>
+          <td class="py-space-sm pr-2">
             <div class="cart-item-info">
-              <span class="cart-item-name">${item.name}</span>
-              <span class="cart-item-unit">${Cart.formatPrice(unitPrice)} each</span>
+              <span class="cart-item-name font-headline-sm text-sm text-on-surface font-semibold block leading-tight">${item.name}</span>
+              <span class="cart-item-unit font-code-pill text-xs text-primary">${Cart.formatPrice(unitPrice)} each</span>
             </div>
           </td>
-          <td>
-            <div class="card-qty-control">
-              <button type="button" class="qty-btn btn-dec" data-id="${item.id}" aria-label="Decrease quantity">−</button>
-              <span class="qty-value">${qty}</span>
-              <button type="button" class="qty-btn btn-inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
+          <td class="py-space-sm text-center px-1">
+            <div class="card-qty-control inline-flex items-center gap-1 bg-surface-container px-2 py-1 rounded-full border border-outline-variant/30">
+              <button type="button" class="qty-btn btn-dec w-6 h-6 rounded-full bg-surface-container-lowest hover:bg-surface-container-high flex items-center justify-center text-xs font-bold font-code-pill transition-colors" data-id="${item.id}" aria-label="Decrease quantity">−</button>
+              <span class="qty-value font-code-pill text-xs font-semibold px-1.5">${qty}</span>
+              <button type="button" class="qty-btn btn-inc w-6 h-6 rounded-full bg-surface-container-lowest hover:bg-surface-container-high flex items-center justify-center text-xs font-bold font-code-pill transition-colors" data-id="${item.id}" aria-label="Increase quantity">+</button>
             </div>
           </td>
-          <td class="cart-item-total">${Cart.formatPrice(itemTotal)}</td>
-          <td style="text-align: right;">
-            <button type="button" class="btn-remove" data-id="${item.id}" aria-label="Remove item">✕</button>
+          <td class="cart-item-total py-space-sm text-right font-headline-sm text-sm font-bold text-on-surface px-1">
+            ${Cart.formatPrice(itemTotal)}
+          </td>
+          <td class="py-space-sm text-right pl-2">
+            <button type="button" class="btn-remove text-outline hover:text-error text-xs font-bold transition-colors p-1" data-id="${item.id}" aria-label="Remove item">✕</button>
           </td>
         `;
         cartItemsTable.appendChild(tr);
@@ -260,6 +265,14 @@ document.addEventListener('DOMContentLoaded', () => {
         Cart.removeFromCart(itemId);
         renderCart();
       }
+    });
+  }
+
+  const clearAllBtn = document.getElementById('clear-all-btn');
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', () => {
+      Cart.saveCart([]);
+      renderCart();
     });
   }
 
