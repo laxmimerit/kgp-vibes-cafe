@@ -11,3 +11,4 @@ project never mixes them into your cafe folder.
 | 1. Vibe coding, Antigravity and Google's AI tools | [01_Vibe_Coding_Antigravity_and_Google_AI_Tools_Cheat_Sheet.pdf](cheatsheets/01_Vibe_Coding_Antigravity_and_Google_AI_Tools_Cheat_Sheet.pdf) |
 | 2. Meet KGP Vibes Cafe, one project for the whole course | [02_Meet_KGP_Vibes_Cafe_Cheat_Sheet.pdf](cheatsheets/02_Meet_KGP_Vibes_Cafe_Cheat_Sheet.pdf) |
 | 3. Work safely in the App, and the CLI in brief | [03_Work_Safely_in_the_App_and_the_CLI_Cheat_Sheet.pdf](cheatsheets/03_Work_Safely_in_the_App_and_the_CLI_Cheat_Sheet.pdf) |
+| 4. Plan and guard rails | [04_Plan_and_Guard_Rails_Cheat_Sheet.pdf](cheatsheets/04_Plan_and_Guard_Rails_Cheat_Sheet.pdf) |
