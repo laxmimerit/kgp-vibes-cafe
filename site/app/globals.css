@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #984300;
+  --secondary: #73584e;
+  --surface: #fcf9f4;
+  --on-surface: #1c1c19;
+}
+
+body {
+  background-color: #fcf9f4;
+  color: #1c1c19;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Time chip quick buttons */
+.time-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(221, 193, 179, 0.4);
+  background-color: #f0ede9;
+  color: #564339;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+}
+
+.time-chip:hover {
+  background-color: #e5e2dd;
+  color: #1c1c19;
+  border-color: #984300;
+}
+
+.time-chip.active {
+  background-color: #984300 !important;
+  color: #ffffff !important;
+  border-color: #984300 !important;
+  box-shadow: 0 1px 3px rgba(152, 67, 0, 0.25);
+}
+
+/* Outlet Radio Cards */
+.radio-card {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(221, 193, 179, 0.4);
+}
+
+.radio-card:hover {
+  border-color: rgba(152, 67, 0, 0.5);
+  background-color: #f6f3ee;
+}
+
+.radio-card.selected,
+.radio-card:has(input[type="radio"]:checked) {
+  border-color: #984300 !important;
+  background-color: #fcd8ca !important;
+}
+
+/* Order Confirmation Ticket Styles */
+.ticket-container {
+  background-color: #ffffff;
+  border: 1px solid rgba(221, 193, 179, 0.5);
+  border-radius: 1rem;
+  position: relative;
+  box-shadow: 0 8px 30px -4px rgba(43, 24, 16, 0.08);
+}
+
+.ticket-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(221, 193, 179, 0.4);
+  font-size: 0.875rem;
+}
+
+.ticket-item-row:last-child {
+  border-bottom: none;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

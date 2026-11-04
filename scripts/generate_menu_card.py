@@ -35,7 +35,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 # ==============================================================================
 # The website menu page address. Keep this in one setting so it can be changed
 # when the site goes live. Can also be overridden by CAFE_MENU_URL env var.
-SITE_MENU_URL = os.environ.get("CAFE_MENU_URL", "http://localhost:8000/menu.html")
+SITE_MENU_URL = os.environ.get("CAFE_MENU_URL", "http://localhost:3000/menu")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(BASE_DIR, "baseline", "menu.csv")
@@ -241,8 +241,8 @@ def load_menu_items(csv_path):
                 print(f"Unknown category: {cat}")
                 
     total = sum(len(v) for v in categories.values())
-    if total != 39:
-        print(f"Warning: Expected 39 items, found {total}")
+    if total == 0:
+        print(f"Warning: No items found in {csv_path}")
     return categories
 
 
@@ -314,9 +314,13 @@ class MenuCardRenderer:
         # Card spacing and vertical distribution
         card_gap = 8.5 if self.is_letter else 10.5
         
-        # Column 1: Coffee (12 items) & Snacks & Meals (9 items)
+        # Column 1: Coffee & Snacks & Meals dynamically proportioned
         col1_content_h = available_cards_h - card_gap
-        coffee_h = round(col1_content_h * (12.1 / 21.0))
+        n_coffee = len(categories['Coffee'])
+        n_snacks = len(categories['Snacks & Meals'])
+        col1_items = n_coffee + n_snacks
+        coffee_ratio = (n_coffee / col1_items) if col1_items > 0 else 0.5
+        coffee_h = round(col1_content_h * coffee_ratio)
         snacks_h = col1_content_h - coffee_h
         
         coffee_y = cards_top - coffee_h

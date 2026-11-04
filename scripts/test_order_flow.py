@@ -1,12 +1,11 @@
 """
 test_order_flow.py
-End-to-end verification of KGP Vibes Cafe website order flow in a real headless Chrome browser,
+End-to-end verification of KGP Vibes Cafe Next.js website order flow in a real headless Chrome browser,
 including pickup time behavior across multiple times of day, cart quantity/total updates,
 and confirmation ticket verification.
 """
-import http.server
-import socketserver
-import threading
+import http.client
+import subprocess
 import time
 import os
 import re
@@ -26,30 +25,51 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
 PORT = 8089
+DEV_PORT = 3000
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_DIR = os.path.join(BASE_DIR, "site")
 
 
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=SITE_DIR, **kwargs)
-
-    def log_message(self, format, *args):
-        pass  # suppress server logs
-
-    def handle(self):
-        try:
-            super().handle()
-        except (ConnectionResetError, BrokenPipeError):
-            pass
+def is_port_open(port):
+    try:
+        conn = http.client.HTTPConnection("127.0.0.1", port, timeout=1)
+        conn.request("GET", "/")
+        resp = conn.getresponse()
+        return resp.status == 200
+    except Exception:
+        return False
 
 
 def start_server():
-    socketserver.TCPServer.allow_reuse_address = True
-    server = socketserver.TCPServer(("", PORT), Handler)
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    return server
+    print(f"Starting Next.js production server on port {PORT}...", flush=True)
+    next_entry = os.path.join("node_modules", "next", "dist", "bin", "next")
+    node_cmd = ["node", next_entry, "start", "-p", str(PORT)]
+
+    proc = subprocess.Popen(
+        node_cmd,
+        cwd=SITE_DIR,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+    start_time = time.time()
+    while time.time() - start_time < 30:
+        try:
+            conn = http.client.HTTPConnection("127.0.0.1", PORT, timeout=1)
+            conn.request("GET", "/")
+            resp = conn.getresponse()
+            if resp.status == 200:
+                print(f"✓ Next.js server ready at http://localhost:{PORT}/", flush=True)
+                return proc
+        except Exception:
+            time.sleep(0.3)
+
+    try:
+        proc.terminate()
+        proc.kill()
+    except Exception:
+        pass
+    raise RuntimeError(f"Next.js server failed to respond on port {PORT} within 30 seconds.")
 
 
 def safe_click(driver, el):
@@ -61,14 +81,36 @@ def safe_click(driver, el):
 def set_simulated_time(driver, hh_mm_str):
     """Simulate a specific time of day (HH:MM in 24h) on the cart page and refresh pickup UI."""
     hours, minutes = map(int, hh_mm_str.split(":"))
-    driver.execute_script(
+    driver.execute_async_script(
         """
+        const [hours, minutes, done] = arguments;
         const d = new Date();
-        d.setHours(arguments[0], arguments[1], 0, 0);
+        d.setHours(hours, minutes, 0, 0);
         window.refreshPickupTimeOptions(d);
+        requestAnimationFrame(() => setTimeout(done, 0));
         """,
         hours,
         minutes,
+    )
+
+
+def assert_no_console_errors(driver, context_label):
+    """Fail if the browser logged any unexpected console.error / uncaught JS / hydration errors."""
+    unexpected = []
+    for entry in driver.get_log("browser"):
+        if entry.get("level") != "SEVERE":
+            continue
+        msg = entry.get("message", "")
+        # Menu page intentionally falls back via onError for items without custom photography
+        if "/images/menu/" in msg and "404" in msg:
+            continue
+        # Ignore external Google Fonts network errors if tested without internet
+        if ("fonts.googleapis.com" in msg or "fonts.gstatic.com" in msg) and "ERR_" in msg:
+            continue
+        unexpected.append(entry)
+
+    assert not unexpected, (
+        f"Unexpected browser console error(s) during {context_label}: {unexpected}"
     )
 
 
@@ -97,49 +139,59 @@ def get_pickup_ui_snapshot(driver):
 
 def run_tests():
     server = start_server()
-    print(f"HTTP Server started at http://localhost:{PORT}")
 
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--window-size=1280,1600")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
     try:
         # 1. Test Home Page
-        print("\n--- Test 1: Home Page Loading & Navigation ---")
-        driver.get(f"http://localhost:{PORT}/index.html")
+        print("\n--- Test 1: Home Page Loading & Navigation ---", flush=True)
+        driver.get(f"http://localhost:{PORT}/")
         assert "KGP Vibes Cafe" in driver.title, f"Unexpected title: {driver.title}"
         brand_title = driver.find_element(By.CLASS_NAME, "brand-title").text
         assert "KGP Vibes Cafe" in brand_title, "Brand title mismatch"
-        print("✓ Home page loaded successfully")
+        print("✓ Home page loaded successfully", flush=True)
 
-        # 2. Test Menu Page & 39 items
-        print("\n--- Test 2: Menu Catalog & Dynamic Items Rendering ---")
-        driver.get(f"http://localhost:{PORT}/menu.html")
+        # 2. Test Menu Page & Dynamic Items
+        print("\n--- Test 2: Menu Catalog & Dynamic Items Rendering ---", flush=True)
+        menu_json_path = os.path.join(SITE_DIR, "data", "menu.json")
+        expected_total = 40
+        expected_coffee = 13
+        if os.path.exists(menu_json_path):
+            import json
+            with open(menu_json_path, mode="r", encoding="utf-8") as f:
+                menu_data = json.load(f)
+                expected_total = len(menu_data)
+                expected_coffee = len([item for item in menu_data if item.get("category") == "Coffee"])
+
+        driver.get(f"http://localhost:{PORT}/menu")
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "menu-card")))
         cards = driver.find_elements(By.CLASS_NAME, "menu-card")
-        print(f"Rendered menu items count: {len(cards)}")
-        assert len(cards) == 39, f"Expected 39 items, got {len(cards)}"
-        print("✓ All 39 items from baseline/menu.csv rendered successfully")
+        print(f"Rendered menu items count: {len(cards)}", flush=True)
+        assert len(cards) == expected_total, f"Expected {expected_total} items, got {len(cards)}"
+        print(f"✓ All {expected_total} items from baseline/menu.csv rendered successfully", flush=True)
 
         # Test Category Filter
         coffee_btn = driver.find_element(By.CSS_SELECTOR, 'button[data-category="Coffee"]')
         safe_click(driver, coffee_btn)
         time.sleep(0.2)
         coffee_cards = driver.find_elements(By.CLASS_NAME, "menu-card")
-        assert len(coffee_cards) == 12, f"Expected 12 coffee items, got {len(coffee_cards)}"
-        print("✓ Category filter works accurately")
+        assert len(coffee_cards) == expected_coffee, f"Expected {expected_coffee} coffee items, got {len(coffee_cards)}"
+        print("✓ Category filter works accurately", flush=True)
 
         # Reset Category to All
         safe_click(driver, driver.find_element(By.CSS_SELECTOR, 'button[data-category="all"]'))
         time.sleep(0.2)
 
         # 3. Search and Add to Cart
-        print("\n--- Test 3: Add Items to Cart ---")
+        print("\n--- Test 3: Add Items to Cart ---", flush=True)
         search_input = driver.find_element(By.ID, "menu-search")
         search_input.send_keys("Talkie Chai")
         time.sleep(0.2)
@@ -160,54 +212,78 @@ def run_tests():
         badges = driver.find_elements(By.CLASS_NAME, "cart-badge")
         cart_count = int(badges[0].text)
         assert cart_count == 2, f"Expected 2 items in cart, got {cart_count}"
-        print("✓ Items added to cart and badge updated (2 items)")
+        print("✓ Items added to cart and badge updated (2 items)", flush=True)
 
         # 4. Cart Quantities & Totals Verification
-        print("\n--- Test 4: Cart Quantities & Totals Stay Correct When Quantities Change ---")
-        driver.get(f"http://localhost:{PORT}/cart.html")
-        wait.until(EC.presence_of_element_located((By.ID, "active-cart-layout")))
+        print("\n--- Test 4: Cart Quantities & Totals Stay Correct When Quantities Change ---", flush=True)
+        driver.get(f"http://localhost:{PORT}/cart")
+        wait.until(EC.visibility_of_element_located((By.ID, "active-cart-layout")))
+        assert_no_console_errors(driver, "Cart page load & hydration")
 
-        # Initial: 1x Talkie Chai ($2.00) + 1x Byte Brownie ($2.50) = $4.50, 2 items
+        # Determine actual item prices from menu data
+        menu_json_path = os.path.join(SITE_DIR, "data", "menu.json")
+        chai_price = 2.00
+        brownie_price = 2.50
+        if os.path.exists(menu_json_path):
+            import json
+            with open(menu_json_path, mode="r", encoding="utf-8") as f:
+                menu_data = json.load(f)
+                for item in menu_data:
+                    if item.get("name") == "Talkie Chai":
+                        chai_price = float(item["price"])
+                    elif item.get("name") == "Byte Brownie":
+                        brownie_price = float(item["price"])
+
+        expected_initial_subtotal = f"${(chai_price + brownie_price):.2f}"
+        expected_chai_3 = f"${(chai_price * 3):.2f}"
+        expected_step1_subtotal = f"${(chai_price * 3 + brownie_price):.2f}"
+        expected_brownie_2 = f"${(brownie_price * 2):.2f}"
+        expected_step2_subtotal = f"${(chai_price * 3 + brownie_price * 2):.2f}"
+        expected_chai_2 = f"${(chai_price * 2):.2f}"
+        expected_final_total = f"${(chai_price * 2 + brownie_price * 2):.2f}"
+
+        # Initial: 1x Talkie Chai + 1x Byte Brownie
         assert driver.find_element(By.ID, "cart-count-summary").text == "2 items"
-        assert driver.find_element(By.ID, "cart-subtotal").text == "$4.50"
-        assert driver.find_element(By.ID, "cart-total").text == "$4.50"
+        assert driver.find_element(By.ID, "cart-subtotal").text == expected_initial_subtotal
+        assert driver.find_element(By.ID, "cart-total").text == expected_initial_subtotal
 
-        # Increment Talkie Chai quantity to 3 (+2 clicks) -> 3x $2.00 = $6.00 + 1x $2.50 = $8.50 (4 items)
+        # Increment Talkie Chai quantity to 3 (+2 clicks)
         inc_btns = driver.find_elements(By.CSS_SELECTOR, ".btn-inc")
         safe_click(driver, inc_btns[0])
         safe_click(driver, driver.find_elements(By.CSS_SELECTOR, ".btn-inc")[0])
 
         rows = driver.find_elements(By.CSS_SELECTOR, "#cart-items-body tr")
         assert rows[0].find_element(By.CLASS_NAME, "qty-value").text == "3"
-        assert rows[0].find_element(By.CLASS_NAME, "cart-item-total").text == "$6.00"
+        assert rows[0].find_element(By.CLASS_NAME, "cart-item-total").text == expected_chai_3
         assert driver.find_element(By.ID, "cart-count-summary").text == "4 items"
-        assert driver.find_element(By.ID, "cart-subtotal").text == "$8.50"
-        assert driver.find_element(By.ID, "cart-total").text == "$8.50"
+        assert driver.find_element(By.ID, "cart-subtotal").text == expected_step1_subtotal
+        assert driver.find_element(By.ID, "cart-total").text == expected_step1_subtotal
         assert driver.find_element(By.CLASS_NAME, "cart-badge").text == "4"
-        print("✓ Incrementing quantity updated row total ($6.00), subtotal ($8.50), total ($8.50), and item count (4 items)")
+        print(f"✓ Incrementing quantity updated row total ({expected_chai_3}), subtotal ({expected_step1_subtotal}), total ({expected_step1_subtotal}), and item count (4 items)", flush=True)
 
-        #Increment Byte Brownie quantity to 2 (+1 click) -> 3x $2.00 ($6.00) + 2x $2.50 ($5.00) = $11.00 (5 items)
+        # Increment Byte Brownie quantity to 2 (+1 click)
         safe_click(driver, driver.find_elements(By.CSS_SELECTOR, ".btn-inc")[1])
         rows = driver.find_elements(By.CSS_SELECTOR, "#cart-items-body tr")
         assert rows[1].find_element(By.CLASS_NAME, "qty-value").text == "2"
-        assert rows[1].find_element(By.CLASS_NAME, "cart-item-total").text == "$5.00"
+        assert rows[1].find_element(By.CLASS_NAME, "cart-item-total").text == expected_brownie_2
         assert driver.find_element(By.ID, "cart-count-summary").text == "5 items"
-        assert driver.find_element(By.ID, "cart-subtotal").text == "$11.00"
-        assert driver.find_element(By.ID, "cart-total").text == "$11.00"
-        print("✓ Incrementing second item updated row total ($5.00), subtotal ($11.00), total ($11.00), and item count (5 items)")
+        assert driver.find_element(By.ID, "cart-subtotal").text == expected_step2_subtotal
+        assert driver.find_element(By.ID, "cart-total").text == expected_step2_subtotal
+        print(f"✓ Incrementing second item updated row total ({expected_brownie_2}), subtotal ({expected_step2_subtotal}), total ({expected_step2_subtotal}), and item count (5 items)", flush=True)
 
-        # Decrement Talkie Chai back to 2 (-1 click) -> 2x $2.00 ($4.00) + 2x $2.50 ($5.00) = $9.00 (4 items)
+        # Decrement Talkie Chai back to 2 (-1 click)
         safe_click(driver, driver.find_elements(By.CSS_SELECTOR, ".btn-dec")[0])
         rows = driver.find_elements(By.CSS_SELECTOR, "#cart-items-body tr")
         assert rows[0].find_element(By.CLASS_NAME, "qty-value").text == "2"
-        assert rows[0].find_element(By.CLASS_NAME, "cart-item-total").text == "$4.00"
+        assert rows[0].find_element(By.CLASS_NAME, "cart-item-total").text == expected_chai_2
         assert driver.find_element(By.ID, "cart-count-summary").text == "4 items"
-        assert driver.find_element(By.ID, "cart-subtotal").text == "$9.00"
-        assert driver.find_element(By.ID, "cart-total").text == "$9.00"
-        print("✓ Decrementing quantity updated row total ($4.00), subtotal ($9.00), total ($9.00), and item count (4 items)")
+        assert driver.find_element(By.ID, "cart-subtotal").text == expected_final_total
+        assert driver.find_element(By.ID, "cart-total").text == expected_final_total
+        print(f"✓ Decrementing quantity updated row total ({expected_chai_2}), subtotal ({expected_final_total}), total ({expected_final_total}), and item count (4 items)", flush=True)
 
         # 5. Test Pickup Time Behavior at Several Times of Day
-        print("\n--- Test 5: Pickup Time Slots & Quick Buttons Across Several Times of Day ---")
+        print("\n--- Test 5: Pickup Time Slots & Quick Buttons Across Several Times of Day ---", flush=True)
+        print(f"Current URL at start of Test 5: {driver.current_url}", flush=True)
 
         # 5a. Late at night (00:19 / 12:19 AM)
         set_simulated_time(driver, "00:19")
@@ -220,13 +296,13 @@ def run_tests():
         assert snap["selected"] == "8:00 AM", f"Expected initial selection 8:00 AM, got {snap['selected']}"
         assert len(snap["visible_chips"]) == 3, "All 3 quick buttons should be visible when starting from 8:00 AM"
 
-        # Click each quick button at 12:19 AM and verify they give 8:00 AM, 8:15 AM, 8:30 AM (not all 8:30 AM!)
+        # Click each quick button at 12:19 AM and verify they give 8:00 AM, 8:15 AM, 8:30 AM
         expected_closed_presets = ["8:00 AM", "8:15 AM", "8:30 AM"]
         for idx, expected_val in enumerate(expected_closed_presets):
             safe_click(driver, snap["chips"][idx])
             actual_val = driver.find_element(By.ID, "pickup-time-input").get_attribute("value")
             assert actual_val == expected_val, f"At 00:19, quick button {idx+1} gave {actual_val}, expected {expected_val}"
-        print("✓ [12:19 AM - Late Night] Shows closed notice, starts at 8:00 AM, quick buttons give 8:00 AM / 8:15 AM / 8:30 AM")
+        print("✓ [12:19 AM - Late Night] Shows closed notice, starts at 8:00 AM, quick buttons give 8:00 AM / 8:15 AM / 8:30 AM", flush=True)
 
         # 5b. Early morning before opening (06:45 / 6:45 AM)
         set_simulated_time(driver, "06:45")
@@ -239,7 +315,7 @@ def run_tests():
             safe_click(driver, snap["chips"][idx])
             actual_val = driver.find_element(By.ID, "pickup-time-input").get_attribute("value")
             assert actual_val == expected_val
-        print("✓ [6:45 AM - Early Morning] Shows closed notice, starts at 8:00 AM, quick buttons give 8:00 AM / 8:15 AM / 8:30 AM")
+        print("✓ [6:45 AM - Early Morning] Shows closed notice, starts at 8:00 AM, quick buttons give 8:00 AM / 8:15 AM / 8:30 AM", flush=True)
 
         # 5c. Right at opening (08:00 / 8:00 AM)
         set_simulated_time(driver, "08:00")
@@ -253,10 +329,9 @@ def run_tests():
             safe_click(driver, snap["chips"][idx])
             actual_val = driver.find_element(By.ID, "pickup-time-input").get_attribute("value")
             assert actual_val == expected_val
-        print("✓ [8:00 AM - Opening] Closed notice hidden, starts at 8:15 AM (>=15m from now), quick buttons give 8:15 AM / 8:30 AM / 8:45 AM")
+        print("✓ [8:00 AM - Opening] Closed notice hidden, starts at 8:15 AM (>=15m from now), quick buttons give 8:15 AM / 8:30 AM / 8:45 AM", flush=True)
 
         # 5d. Mid-day non-quarter-hour (14:07 / 2:07 PM)
-        # 2:07 PM + 15m = 2:22 PM -> next 15-minute slot is 2:30 PM
         set_simulated_time(driver, "14:07")
         snap = get_pickup_ui_snapshot(driver)
         assert not snap["closed_visible"], "Closed notice must be hidden at 2:07 PM"
@@ -267,11 +342,9 @@ def run_tests():
             safe_click(driver, snap["chips"][idx])
             actual_val = driver.find_element(By.ID, "pickup-time-input").get_attribute("value")
             assert actual_val == expected_val
-        print("✓ [2:07 PM - Mid-day] Closed notice hidden, starts at 2:30 PM, quick buttons give 2:30 PM / 2:45 PM / 3:00 PM")
+        print("✓ [2:07 PM - Mid-day] Closed notice hidden, starts at 2:30 PM, quick buttons give 2:30 PM / 2:45 PM / 3:00 PM", flush=True)
 
         # 5e. Near closing with 2 slots left (21:10 / 9:10 PM)
-        # 9:10 PM + 15m = 9:25 PM -> next 15-minute slot is 9:30 PM. Slots: 9:30 PM, 9:45 PM.
-        # +45 Mins would be 10:00 PM (after closing) -> must be hidden!
         set_simulated_time(driver, "21:10")
         snap = get_pickup_ui_snapshot(driver)
         assert not snap["closed_visible"], "Closed notice must be hidden at 9:10 PM"
@@ -282,11 +355,9 @@ def run_tests():
         assert driver.find_element(By.ID, "pickup-time-input").get_attribute("value") == "9:30 PM"
         safe_click(driver, snap["chips"][1])
         assert driver.find_element(By.ID, "pickup-time-input").get_attribute("value") == "9:45 PM"
-        print("✓ [9:10 PM - Near Closing (2 slots)] Slots are 9:30 PM & 9:45 PM; +45 Mins button hidden")
+        print("✓ [9:10 PM - Near Closing (2 slots)] Slots are 9:30 PM & 9:45 PM; +45 Mins button hidden", flush=True)
 
         # 5f. Near closing with 1 slot left (21:25 / 9:25 PM)
-        # 9:25 PM + 15m = 9:40 PM -> next 15-minute slot is 9:45 PM. Slots: 9:45 PM.
-        # +30 Mins and +45 Mins would land after closing -> both must be hidden!
         set_simulated_time(driver, "21:25")
         snap = get_pickup_ui_snapshot(driver)
         assert not snap["closed_visible"], "Closed notice must be hidden at 9:25 PM"
@@ -296,7 +367,7 @@ def run_tests():
         assert not snap["chips"][1].is_displayed(), "+30 Mins button must be hidden at 9:25 PM"
         assert not snap["chips"][2].is_displayed(), "+45 Mins button must be hidden at 9:25 PM"
         assert snap["selected"] == "9:45 PM"
-        print("✓ [9:25 PM - Near Closing (1 slot)] Only 9:45 PM slot offered; +30 Mins and +45 Mins buttons hidden")
+        print("✓ [9:25 PM - Near Closing (1 slot)] Only 9:45 PM slot offered; +30 Mins and +45 Mins buttons hidden", flush=True)
 
         # 5g. After last pickup cutoff (21:35 / 9:35 PM) and late night (22:45 / 10:45 PM)
         set_simulated_time(driver, "21:35")
@@ -306,7 +377,7 @@ def run_tests():
         assert snap["options"][0] == "8:00 AM"
         assert snap["selected"] == "8:00 AM"
         assert len(snap["visible_chips"]) == 3
-        print("✓ [9:35 PM - Past Cutoff] Shows closed notice and starts from next opening at 8:00 AM")
+        print("✓ [9:35 PM - Past Cutoff] Shows closed notice and starts from next opening at 8:00 AM", flush=True)
 
         set_simulated_time(driver, "22:45")
         snap = get_pickup_ui_snapshot(driver)
@@ -314,11 +385,10 @@ def run_tests():
         assert snap["closed_text"] == "We're closed right now. Pickup starts at 8:00 AM."
         assert snap["options"][0] == "8:00 AM"
         assert snap["selected"] == "8:00 AM"
-        print("✓ [10:45 PM - Closed Night] Shows closed notice and starts from next opening at 8:00 AM")
+        print("✓ [10:45 PM - Closed Night] Shows closed notice and starts from next opening at 8:00 AM", flush=True)
 
-        # 6. Checkout & Confirmation Ticket Verification (Ticket Shows Picked Time & Updated Total)
-        print("\n--- Test 6: Order Confirmation Ticket Shows Exact Customer-Picked Time & Updated Total ---")
-        # Simulate 2:07 PM and pick 3:15 PM from the dropdown
+        # 6. Checkout & Confirmation Ticket Verification
+        print("\n--- Test 6: Order Confirmation Ticket Shows Exact Customer-Picked Time & Updated Total ---", flush=True)
         set_simulated_time(driver, "14:07")
         select_obj = Select(driver.find_element(By.ID, "pickup-time-input"))
         select_obj.select_by_visible_text("3:15 PM")
@@ -333,7 +403,7 @@ def run_tests():
         # Submit Demo Order
         safe_click(driver, driver.find_element(By.ID, "btn-place-order"))
 
-        wait.until(EC.url_contains("confirmation.html"))
+        wait.until(EC.url_contains("confirmation"))
         wait.until(EC.presence_of_element_located((By.ID, "ticket-number")))
 
         order_number = driver.find_element(By.ID, "ticket-number").text
@@ -342,62 +412,100 @@ def run_tests():
         outlet_name = driver.find_element(By.ID, "ticket-outlet").text
         ticket_total = driver.find_element(By.ID, "ticket-total").text
 
-        print(f"Generated Order Number: {order_number}")
-        print(f"Customer Name: {customer_name}")
-        print(f"Pickup Time on Ticket: {pickup_time}")
-        print(f"Outlet: {outlet_name}")
-        print(f"Total on Ticket: {ticket_total}")
+        print(f"Generated Order Number: {order_number}", flush=True)
+        print(f"Customer Name: {customer_name}", flush=True)
+        print(f"Pickup Time on Ticket: {pickup_time}", flush=True)
+        print(f"Outlet: {outlet_name}", flush=True)
+        print(f"Total on Ticket: {ticket_total}", flush=True)
 
         assert re.match(r"^KV-\d{4}$", order_number), f"Invalid order number format: {order_number}"
         assert customer_name == "Alex Developer", f"Customer name mismatch: {customer_name}"
         assert pickup_time == "3:15 PM", f"Expected ticket pickup time '3:15 PM', got '{pickup_time}'"
         assert "Koramangala" in outlet_name, f"Outlet mismatch: {outlet_name}"
-        assert ticket_total == "$9.00", f"Expected updated total '$9.00', got '{ticket_total}'"
-        print("✓ Order ticket shows exact picked time ('3:15 PM') and updated cart total ('$9.00')")
+        assert ticket_total == expected_final_total, f"Expected updated total '{expected_final_total}', got '{ticket_total}'"
+        print(f"✓ Order ticket shows exact picked time ('3:15 PM') and updated cart total ('{expected_final_total}')", flush=True)
 
         # Capture screenshot
         assets_dir = os.path.join(BASE_DIR, "assets")
         os.makedirs(assets_dir, exist_ok=True)
         screenshot_path = os.path.join(assets_dir, "demo_order_confirmation.png")
         driver.save_screenshot(screenshot_path)
-        print(f"✓ Saved confirmation screenshot to {screenshot_path}")
+        print(f"✓ Saved confirmation screenshot to {screenshot_path}", flush=True)
 
         # 7. Test Persistence on Reload
-        print("\n--- Test 7: Ticket Persistence on Reload ---")
+        print("\n--- Test 7: Ticket Persistence on Reload ---", flush=True)
         driver.refresh()
         wait.until(EC.presence_of_element_located((By.ID, "ticket-number")))
         assert driver.find_element(By.ID, "ticket-number").text == order_number
         assert driver.find_element(By.ID, "ticket-pickup-time").text == "3:15 PM"
-        assert driver.find_element(By.ID, "ticket-total").text == "$9.00"
-        print("✓ Order ticket persisted across page refresh")
+        assert driver.find_element(By.ID, "ticket-total").text == expected_final_total
+        print("✓ Order ticket persisted across page refresh", flush=True)
 
         # 8. Test Empty Cart Edge Case
-        print("\n--- Test 8: Empty Cart State ---")
+        print("\n--- Test 8: Empty Cart State ---", flush=True)
         safe_click(driver, driver.find_element(By.ID, "btn-another-order"))
-        wait.until(EC.url_contains("menu.html"))
+        wait.until(EC.url_contains("menu"))
 
-        driver.get(f"http://localhost:{PORT}/cart.html")
-        wait.until(EC.presence_of_element_located((By.ID, "empty-cart-state")))
+        driver.get(f"http://localhost:{PORT}/cart")
+        wait.until(EC.visibility_of_element_located((By.ID, "empty-cart-state")))
         assert driver.find_element(By.ID, "empty-cart-state").is_displayed()
         assert not driver.find_element(By.ID, "active-cart-layout").is_displayed()
-        print("✓ Empty cart state verified")
+        assert_no_console_errors(driver, "Empty cart state")
+        print("✓ Empty cart state verified", flush=True)
 
         # 9. Test Direct Confirmation Protection
-        print("\n--- Test 9: Direct Visit to Confirmation without Order ---")
-        driver.get(f"http://localhost:{PORT}/confirmation.html")
-        wait.until(EC.url_contains("menu.html"))
-        print("✓ Direct visit to confirmation.html without active order redirected to menu.html")
+        print("\n--- Test 9: Direct Visit to Confirmation without Order ---", flush=True)
+        driver.get(f"http://localhost:{PORT}/confirmation")
+        wait.until(EC.url_contains("menu"))
+        assert_no_console_errors(driver, "Production full order flow")
+        print("✓ Direct visit to confirmation without active order redirected to menu", flush=True)
+        print("✓ Zero browser console errors across production order flow", flush=True)
 
-        print("\n=======================================================")
-        print("ALL END-TO-END TESTS PASSED SUCCESSFULLY!")
-        print(f"GOAL ACHIEVED: Verified across 8 times of day, Order Number: {order_number}")
-        print("=======================================================\n")
+        # 10. Verify Dev Server Cart Page (React Dev Mode Console Checks) when running
+        if is_port_open(DEV_PORT):
+            print(f"\n--- Test 10: Dev Server (port {DEV_PORT}) Cart Page Console Check ---", flush=True)
+            driver.get(f"http://localhost:{DEV_PORT}/cart")
+            wait.until(EC.visibility_of_element_located((By.ID, "empty-cart-state")))
+            assert_no_console_errors(driver, "Dev server empty cart load")
+
+            # Add an item on dev server, load /cart, reload /cart to test SSR + Dev Hydration with items
+            driver.get(f"http://localhost:{DEV_PORT}/menu")
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "add-to-cart-btn")))
+            safe_click(driver, driver.find_elements(By.CLASS_NAME, "add-to-cart-btn")[0])
+            time.sleep(0.2)
+
+            driver.get(f"http://localhost:{DEV_PORT}/cart")
+            wait.until(EC.visibility_of_element_located((By.ID, "active-cart-layout")))
+            driver.refresh()
+            wait.until(EC.visibility_of_element_located((By.ID, "active-cart-layout")))
+
+            # Exercise quantity buttons, quick preset chips, dropdown, and simulated time in React Dev Mode
+            safe_click(driver, driver.find_element(By.CSS_SELECTOR, ".btn-inc"))
+            safe_click(driver, driver.find_element(By.CSS_SELECTOR, ".btn-dec"))
+            set_simulated_time(driver, "14:07")
+            dev_chips = driver.find_elements(By.CSS_SELECTOR, ".time-chip")
+            safe_click(driver, dev_chips[1])
+            Select(driver.find_element(By.ID, "pickup-time-input")).select_by_visible_text("3:00 PM")
+            safe_click(driver, driver.find_element(By.ID, "clear-all-btn"))
+            wait.until(EC.visibility_of_element_located((By.ID, "empty-cart-state")))
+
+            assert_no_console_errors(driver, "Dev server cart interactions & reload hydration")
+            print(f"✓ Zero browser console errors on dev server http://localhost:{DEV_PORT}/cart", flush=True)
+
+        print("\n=======================================================", flush=True)
+        print("ALL END-TO-END TESTS PASSED SUCCESSFULLY!", flush=True)
+        print(f"GOAL ACHIEVED: Verified across 8 times of day, Order Number: {order_number}", flush=True)
+        print("=======================================================\n", flush=True)
 
     finally:
         driver.quit()
-        server.shutdown()
-        server.server_close()
-        print("Server and browser stopped cleanly.")
+        if server:
+            try:
+                server.terminate()
+                server.kill()
+            except Exception:
+                pass
+        print("Server and browser stopped cleanly.", flush=True)
 
 
 if __name__ == "__main__":
