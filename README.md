@@ -13,3 +13,5 @@ project never mixes them into your cafe folder.
 | 3. Work safely in the App, and the CLI in brief | [03_Work_Safely_in_the_App_and_the_CLI_Cheat_Sheet.pdf](cheatsheets/03_Work_Safely_in_the_App_and_the_CLI_Cheat_Sheet.pdf) |
 | 4. Plan and guard rails | [04_Plan_and_Guard_Rails_Cheat_Sheet.pdf](cheatsheets/04_Plan_and_Guard_Rails_Cheat_Sheet.pdf) |
 | 5. Design the cafe, Stitch, photos, menu card and video | [05_Design_the_Cafe_Cheat_Sheet.pdf](cheatsheets/05_Design_the_Cafe_Cheat_Sheet.pdf) |
+| 6. Next.js and skills | [06_Next.js_and_Skills_Cheat_Sheet.pdf](cheatsheets/06_Next.js_and_Skills_Cheat_Sheet.pdf) |
+| 7. Subagents, hooks and sidecars | [07_Subagents_Hooks_and_Sidecars_Cheat_Sheet.pdf](cheatsheets/07_Subagents_Hooks_and_Sidecars_Cheat_Sheet.pdf) |
