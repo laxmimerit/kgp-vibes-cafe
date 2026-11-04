@@ -58,6 +58,12 @@ export default function Header() {
           <Link href="/specials" className={`px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs ${navClass('/specials')}`}>
             Specials
           </Link>
+          <Link href="/diet" className={`px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs ${navClass('/diet')}`}>
+            Diet Guide
+          </Link>
+          <Link href="/faq" className={`px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs ${navClass('/faq')}`}>
+            FAQ
+          </Link>
           <Link href="/cart" className={`px-space-md py-space-xs rounded-full font-label-md transition-colors flex items-center gap-space-xs ${navClass('/cart')}`}>
             <span>Cart</span>
             <span

@@ -1,0 +1,42 @@
+{
+  "guard": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/guard.py"
+          }
+        ]
+      }
+    ]
+  },
+  "quality": {
+    "PostToolUse": [
+      {
+        "matcher": "write_file|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/quality.py",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  },
+  "audit": {
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/audit.py"
+          }
+        ]
+      }
+    ]
+  }
+}
