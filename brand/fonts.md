@@ -1,9 +1,14 @@
 # Brand Typography: KGP Vibes Cafe
 
-## Font Pairing
+Follow the typographic stack defined in `DESIGN.md`:
 
-* **Heading Font:** **Space Grotesk**
-  * **Why it fits:** Its quirky, tech-inspired geometric character reflects the cafe's playful developer roots and programming puns without feeling sterile or overly robotic.
+## Font Families
 
-* **Body Font:** **Inter**
-  * **Why it fits:** Its tall x-height and exceptional legibility ensure menu items, dietary labels, descriptions, and prices remain crystal clear and effortless to scan.
+* **Heading Font:** **Literata** (Serif)  
+  * **Why it fits:** Delivers an authentic editorial feel reminiscent of well-thumbed campus library books, literary journals, and cozy menu signboards.
+
+* **Body Font:** **Plus Jakarta Sans** (Geometric Sans-Serif)  
+  * **Why it fits:** Contemporary, clear, and fatigue-free for menus, narratives, and customer instructions.
+
+* **Labels & Code:** **JetBrains Mono** (Monospace) & **Plus Jakarta Sans** (UI Sans)  
+  * **Why it fits:** Provides clean precision for metadata, tags, and subtle technical styling without compromising readability.

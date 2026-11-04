@@ -1,16 +1,18 @@
 item_id,name,category,description,price_usd,diet,contains_egg,pairs_with,food_cost_usd
 C01,Vibes Espresso Shot,Coffee,Classic strong espresso to kickstart your coding brain.,2.50,vegan,no,Byte Brownie,0.55
-C02,Tech Latte,Coffee,Smooth latte with vanilla and caramel.,3.50,veg,no,Byte Brownie,0.95
+C02,Tech Latte,Coffee,Smooth latte with vanilla and caramel.,3.75,veg,no,Byte Brownie,0.95
 C03,KGP Cold Brew,Coffee,"8-hour brewed chill coffee, bold & smooth.",4.00,vegan,no,Binary Bagel,0.96
 C04,Code Cappuccino,Coffee,Perfectly balanced foam & espresso.,3.20,veg,no,Loop Croissant,0.83
 C05,Debug Mocha,Coffee,Chocolate-infused mocha for late-night fixes.,3.80,veg,no,Git Commit Cookies,1.14
 C06,Hackathon Iced Coffee,Coffee,"Sweet and energetic, keeps you awake.",4.50,veg,no,AI Waffle,1.22
 C07,Caramel Macchiato,Coffee,Layered espresso with vanilla and caramel drizzle.,4.20,veg,no,Compile Cheesecake,1.18
 C08,Flat White,Coffee,Velvety microfoam meets rich espresso.,3.60,veg,no,Loop Croissant,0.94
-C09,Talkie Chai,Coffee,"Spiced Indian chai, cafe's soul drink.",2.00,veg,no,KGP Maggi Bowl,0.40
+C09,Talkie Chai,Coffee,"Spiced Indian chai, cafe's soul drink.",2.25,veg,no,KGP Maggi Bowl,0.40
 C10,Matcha Latte,Coffee,Premium Japanese green tea with steamed milk.,4.00,veg,no,Frontend Fruit Bowl,1.36
 C11,Nitro Cold Brew,Coffee,"Smooth, creamy cold brew infused with nitrogen.",4.50,vegan,no,Binary Bagel,1.12
 C12,Campus Hot Chocolate,Coffee,Creamy hot chocolate with marshmallows.,3.00,veg,no,Git Commit Cookies,0.90
+C13,Pumpkin Spice Latte,Coffee,Espresso with pumpkin spice and steamed milk.,4.25,veg,no,Loop Croissant,1.20
+C14,Masala Chai Latte,Coffee,Spiced chai with a shot of espresso.,3.95,veg,no,Loop Croissant,1.10
 S01,Byte Brownie,Snacks & Meals,"Gooey chocolate brownie, perfect with coffee.",2.50,veg,yes,Tech Latte,0.75
 S02,Python Pancakes,Snacks & Meals,Fluffy stack with maple syrup & butter.,4.50,veg,yes,Flat White,1.35
 S03,Caffeine Sandwich,Snacks & Meals,Grilled veggie sandwich with house sauce.,3.80,veg,no,Code Cappuccino,1.25

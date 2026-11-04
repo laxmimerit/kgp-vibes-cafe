@@ -1,0 +1,42 @@
+item_id,name,category,description,price_usd,diet,contains_egg,pairs_with,food_cost_usd
+C01,Vibes Espresso Shot,Coffee,Classic strong espresso to kickstart your coding brain.,2.50,vegan,no,Byte Brownie,0.55
+C02,Tech Latte,Coffee,Smooth latte with vanilla and caramel.,3.75,veg,no,Byte Brownie,0.95
+C03,KGP Cold Brew,Coffee,"8-hour brewed chill coffee, bold & smooth.",4.00,vegan,no,Binary Bagel,0.96
+C04,Code Cappuccino,Coffee,Perfectly balanced foam & espresso.,3.20,veg,no,Loop Croissant,0.83
+C05,Debug Mocha,Coffee,Chocolate-infused mocha for late-night fixes.,3.80,veg,no,Git Commit Cookies,1.14
+C06,Hackathon Iced Coffee,Coffee,"Sweet and energetic, keeps you awake.",4.50,veg,no,AI Waffle,1.22
+C07,Caramel Macchiato,Coffee,Layered espresso with vanilla and caramel drizzle.,4.20,veg,no,Compile Cheesecake,1.18
+C08,Flat White,Coffee,Velvety microfoam meets rich espresso.,3.60,veg,no,Loop Croissant,0.94
+C09,Talkie Chai,Coffee,"Spiced Indian chai, cafe's soul drink.",2.25,veg,no,KGP Maggi Bowl,0.40
+C10,Matcha Latte,Coffee,Premium Japanese green tea with steamed milk.,4.00,veg,no,Frontend Fruit Bowl,1.36
+C11,Nitro Cold Brew,Coffee,"Smooth, creamy cold brew infused with nitrogen.",4.50,vegan,no,Binary Bagel,1.12
+C12,Campus Hot Chocolate,Coffee,Creamy hot chocolate with marshmallows.,3.00,veg,no,Git Commit Cookies,0.90
+C13,Pumpkin Spice Latte,Coffee,Espresso with pumpkin spice and steamed milk.,4.25,veg,no,Loop Croissant,1.20
+C14,Masala Chai Latte,Coffee,Spiced chai with a shot of espresso.,3.95,veg,no,Loop Croissant,1.10
+S01,Byte Brownie,Snacks & Meals,"Gooey chocolate brownie, perfect with coffee.",2.50,veg,yes,Tech Latte,0.75
+S02,Python Pancakes,Snacks & Meals,Fluffy stack with maple syrup & butter.,4.50,veg,yes,Flat White,1.35
+S03,Caffeine Sandwich,Snacks & Meals,Grilled veggie sandwich with house sauce.,3.80,veg,no,Code Cappuccino,1.25
+S04,KGP Maggi Bowl,Snacks & Meals,"2-minute nostalgia, cheese or spicy.",2.20,veg,no,Talkie Chai,0.66
+S05,AI Waffle,Snacks & Meals,Crispy waffle with Nutella & banana.,4.00,veg,yes,Hackathon Iced Coffee,1.28
+S06,Binary Bagel,Snacks & Meals,Toasted bagel with cream cheese & herbs.,3.20,veg,no,KGP Cold Brew,0.99
+S07,Loop Croissant,Snacks & Meals,"Buttery French croissant, flaky perfection.",3.00,veg,yes,Talkie Chai,0.87
+S08,Stack Overflow Nachos,Snacks & Meals,Loaded nachos with cheese & jalapenos.,5.50,veg,no,Chill Zone Mojito,1.65
+S09,Git Commit Cookies,Snacks & Meals,Freshly baked chocolate chip cookies.,2.80,veg,yes,Debug Mocha,0.73
+M01,Startup Burger,Meals,"Juicy patty, lettuce, cheese, startup fuel.",5.00,non-veg,no,Cloud Fries,1.90
+M02,Cloud Fries,Meals,French fries with peri-peri seasoning.,2.80,vegan,no,Startup Burger,0.70
+M03,Talkie Tacos,Meals,Soft tacos with paneer or chicken filling.,4.50,veg or non-veg,no,Bandwidth Lemonade,1.62
+M04,Vibes Pizza Slice,Meals,"Thin crust slice, cheesy & herby.",4.00,veg,no,Chill Zone Mojito,1.32
+M05,Algorithm Wrap,Meals,"Grilled wrap with hummus, veggies & falafel.",5.20,vegan,no,Bandwidth Lemonade,1.77
+M06,Database Pasta,Meals,Creamy alfredo pasta with garlic bread.,6.50,veg,no,Flat White,2.27
+M07,Server Side Salad,Meals,Fresh garden salad with balsamic dressing.,4.80,vegan,no,Data Stream Smoothie,1.54
+M08,Backend Bowl,Meals,Quinoa bowl with roasted veggies & tahini.,5.80,vegan,no,Matcha Latte,2.09
+M09,Full Stack Quesadilla,Meals,Cheesy quesadilla with salsa & sour cream.,5.50,veg,no,Chill Zone Mojito,1.87
+D01,Chill Zone Mojito,Desserts & Drinks,Mint & lime mocktail that refreshes.,3.20,vegan,no,Startup Burger,0.64
+D02,Data Stream Smoothie,Desserts & Drinks,Mango-banana smoothie with protein.,3.80,veg,no,Server Side Salad,1.25
+D03,Zero-Bug Brownie Sundae,Desserts & Drinks,Ice cream + brownie + fudge = perfect.,4.20,veg,yes,Vibes Espresso Shot,1.43
+D04,Compile Cheesecake,Desserts & Drinks,Rich New York style cheesecake slice.,4.50,veg,yes,Caramel Macchiato,1.57
+D05,Cache Milkshake,Desserts & Drinks,Thick vanilla or chocolate milkshake.,4.00,veg,no,Cloud Fries,1.20
+D06,API Affogato,Desserts & Drinks,Vanilla gelato drowned in hot espresso.,4.80,veg,no,Git Commit Cookies,1.58
+D07,Bandwidth Lemonade,Desserts & Drinks,"Fresh-squeezed lemonade, sweet & tangy.",2.80,vegan,no,Talkie Tacos,0.56
+D08,Runtime Tiramisu,Desserts & Drinks,Classic Italian coffee-soaked dessert.,5.00,veg,yes,Vibes Espresso Shot,1.80
+D09,Frontend Fruit Bowl,Desserts & Drinks,Seasonal fresh fruit with honey drizzle.,4.20,veg,no,Matcha Latte,1.60

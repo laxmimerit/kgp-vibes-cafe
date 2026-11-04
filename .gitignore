@@ -1,0 +1,8 @@
+node_modules/
+.next/
+site/node_modules/
+site/.next/
+*.log
+.DS_Store
+db/
+
