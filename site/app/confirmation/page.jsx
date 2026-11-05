@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import confetti from 'canvas-confetti';
 
 function formatDisplayPickupTime(val) {
   if (!val || typeof val !== 'string') return '';
@@ -36,6 +37,11 @@ export default function ConfirmationPage() {
       const parsed = JSON.parse(raw);
       setOrder(parsed);
       setLoaded(true);
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
     } catch (e) {
       console.error('Invalid order data', e);
       router.replace('/menu');

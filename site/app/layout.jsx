@@ -6,6 +6,16 @@ import MobileNav from '../components/MobileNav';
 export const metadata = {
   title: 'KGP Vibes Cafe - Where Code Meets Chai',
   description: 'Artisanal chai, specialty coffee, and cafe favorites in Koramangala and Indiranagar.',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default function RootLayout({ children }) {

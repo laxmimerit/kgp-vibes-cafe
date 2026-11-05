@@ -22,6 +22,14 @@ const FAQS = [
       'Walk up to the pickup counter, quote your order number, and collect your freshly prepared food and drinks without waiting in the register line.',
   },
   {
+    id: 'order-ahead-pickup',
+    category: 'pickup',
+    tag: 'Ordering Ahead',
+    question: 'Can I order ahead for pickup?',
+    answer:
+      'Yes, visit our menu page to choose your favorites and order ahead for quick pickup.',
+  },
+  {
     id: 'order-ahead-flow',
     category: 'pickup',
     tag: 'Ordering Ahead',
@@ -120,7 +128,7 @@ const FAQS = [
 export default function FaqPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [openIds, setOpenIds] = useState(() => new Set(['pickup-counter', 'opening-hours']));
+  const [openIds, setOpenIds] = useState(() => new Set(['pickup-counter', 'order-ahead-pickup', 'opening-hours']));
 
   const toggleAccordion = (id) => {
     setOpenIds((prev) => {
@@ -162,8 +170,6 @@ export default function FaqPage() {
       <section className="bg-surface-container-low py-12 md:py-16 border-b border-outline-variant/30 text-center">
         <div className="max-w-[1280px] mx-auto px-gutter-desktop">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-xs mb-4 shadow-xs">
-            <span className="font-code-pill font-mono text-[11px] text-primary font-semibold">&lt;help-desk status=&quot;online&quot; /&gt;</span>
-            <span className="opacity-40">|</span>
             <span>Frequently Asked Questions</span>
           </div>
 
@@ -278,7 +284,7 @@ export default function FaqPage() {
               No matching questions found
             </h3>
             <p className="font-body-md text-sm text-on-surface-variant max-w-md mx-auto mb-5">
-              We couldn&apos;t find any answers matching your query. Try searching for a different keyword or view all categories.
+              We couldn&apos;t find any answers matching your query, so please try a different keyword or choose a category above.
             </p>
             <button
               type="button"
@@ -332,7 +338,19 @@ export default function FaqPage() {
 
                   {isOpen && (
                     <div className="px-6 pb-5 pt-1 border-t border-outline-variant/15 font-body-md text-sm text-on-surface-variant leading-relaxed">
-                      <p>{faq.answer}</p>
+                      <p>
+                        {faq.answer.includes('menu page') ? (
+                          <>
+                            {faq.answer.split('menu page')[0]}
+                            <Link href="/menu" className="text-primary underline hover:opacity-80 font-medium">
+                              menu page
+                            </Link>
+                            {faq.answer.split('menu page')[1]}
+                          </>
+                        ) : (
+                          faq.answer
+                        )}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -351,7 +369,7 @@ export default function FaqPage() {
               Demo Order-Ahead Experience
             </h4>
             <p className="font-body-sm text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-              Our website checkout is strictly a demo system with no online payment required. Pay when you collect your order at the counter.
+              Our online ordering is strictly a demo system, so you simply pay when you collect your order at the counter.
             </p>
           </div>
           <Link

@@ -35,7 +35,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 # ==============================================================================
 # The website menu page address. Keep this in one setting so it can be changed
 # when the site goes live. Can also be overridden by CAFE_MENU_URL env var.
-SITE_MENU_URL = os.environ.get("CAFE_MENU_URL", "http://localhost:3000/menu")
+SITE_MENU_URL = os.environ.get("CAFE_MENU_URL", "https://kgp-vibes-cafe.vercel.app/menu")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(BASE_DIR, "baseline", "menu.csv")

@@ -58,7 +58,11 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-xs text-on-surface-variant/70">
-          <p>KGP Vibes Cafe. All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+            <p>KGP Vibes Cafe. All rights reserved.</p>
+            <span className="hidden sm:inline text-outline-variant/50">•</span>
+            <p>Demo cafe made for a course</p>
+          </div>
           <div className="flex gap-4">
             <Link href="/about" className="hover:text-primary transition-colors">About</Link>
             <Link href="/menu" className="hover:text-primary transition-colors">Menu</Link>
