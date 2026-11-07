@@ -17,3 +17,4 @@ project never mixes them into your cafe folder.
 | 7. Subagents, hooks and sidecars | [07_Subagents_Hooks_and_Sidecars_Cheat_Sheet.pdf](cheatsheets/07_Subagents_Hooks_and_Sidecars_Cheat_Sheet.pdf) |
 | 8. The cafe goes live, MCP, connectors and plugins | [08_The_Cafe_Goes_Live_MCP_Connectors_and_Plugins_Cheat_Sheet.pdf](cheatsheets/08_The_Cafe_Goes_Live_MCP_Connectors_and_Plugins_Cheat_Sheet.pdf) |
 | 9. Barista Bot, your own agent with the SDK | [09_Barista_Bot_Your_Own_Agent_with_the_SDK_Cheat_Sheet.pdf](cheatsheets/09_Barista_Bot_Your_Own_Agent_with_the_SDK_Cheat_Sheet.pdf) |
+| 10. Always-on agents and the capstone | [10_Always_On_Agents_and_the_Capstone_Cheat_Sheet.pdf](cheatsheets/10_Always_On_Agents_and_the_Capstone_Cheat_Sheet.pdf) |
